@@ -126,7 +126,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	liblights.bowser \
 	power.bowser \
-	sensors.bowser
+	sensors.bowser \
+	hwcomposer.bowser
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
