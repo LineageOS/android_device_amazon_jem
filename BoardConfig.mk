@@ -17,17 +17,25 @@
 #
 # Product-specific compile-time definitions.
 #
+DEVICE_FOLDER := device/amazon/jem
 
 USE_CAMERA_STUB := false
 BOARD_USES_GENERIC_AUDIO := false
 #BOARD_HAVE_FAKE_GPS := true
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-
 TI_OMAP4_CAMERAHAL_VARIANT := false
 
+OMAP_ENHANCEMENT := true
+#OMAP_ENHANCEMENT_BURST_CAPTURE := true
+#OMAP_ENHANCEMENT_S3D := true
+#OMAP_ENHANCEMENT_CPCAM := true
+#OMAP_ENHANCEMENT_VTC := true
+OMAP_ENHANCEMENT_MULTIGPU := true
+ENHANCED_DOMX := true
+
 # inherit from the proprietary version
--include vendor/amazon/bowser/BoardConfigVendor.mk
+-include vendor/amazon/jem/BoardConfigVendor.mk
 
 # Processor 
 TARGET_BOARD_PLATFORM := omap4
@@ -68,15 +76,10 @@ BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
 # Graphics
 USE_OPENGL_RENDERER := true
-BOARD_EGL_CFG := device/amazon/bowser/prebuilt/etc/egl.cfg
-
-# OMAP
-OMAP_ENHANCEMENT := true
-OMAP_ENHANCEMENT_MULTIGPU := true
-ENHANCED_DOMX := true
+BOARD_EGL_CFG := $(DEVICE_FOLDER)/prebuilt/etc/egl.cfg
 
 # Recovery
-TARGET_RECOVERY_INITRC := device/amazon/bowser/recovery/init.rc
+TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.rc
 TARGET_RECOVERY_PRE_COMMAND := "echo 0 > /sys/block/mmcblk0boot0/force_ro; echo -n 3 | dd of=/dev/block/mmcblk0boot0 bs=1 count=1 seek=4104 ; sync"
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -86,31 +89,31 @@ ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
 ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
 
 # boot.img creation
-BOARD_CUSTOM_BOOTIMG_MK := device/amazon/bowser/boot.mk
+BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_FOLDER)/boot.mk
 TARGET_NO_BOOTLOADER := true
 #TARGET_PROVIDES_RELEASETOOLS := true
 
 # hack the ota
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/amazon/bowser/releasetools/bowser_ota_from_target_files
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bowser_ota_from_target_files
 # not tested at all
-TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/amazon/bowser/releasetools/bowser_img_from_target_files
+TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bowser_img_from_target_files
 
-TARGET_KERNEL_CONFIG := cyanogenmod_bowser_defconfig
-TARGET_KERNEL_SOURCE := kernel/bn/bowser
+#TARGET_KERNEL_CONFIG := jem_android_defconfig
+#TARGET_KERNEL_SOURCE := kernel/amazon/jem
 
-SGX_MODULES:
-	cp kernel/bn/bowser/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
-	make ARCH="arm" -C kernel/bn/bowser/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0  KERNEL_CROSS_COMPILE=arm-eabi- KERNELDIR=$(KERNEL_OUT)
-	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
+#SGX_MODULES:
+#	cp kernel/amazon/jem/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
+#	make ARCH="arm" -C kernel/amazon/jem/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0  KERNEL_CROSS_COMPILE=arm-eabi- KERNELDIR=$(KERNEL_OUT)
+#	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
 
-TARGET_KERNEL_MODULES := SGX_MODULES
+#TARGET_KERNEL_MODULES := SGX_MODULES
 
 TARGET_PROVIDES_LIBAUDIO := true
 COMMON_GLOBAL_CFLAGS += -DICS_AUDIO_BLOB
 
 # Keep this as a fallback
-TARGET_PREBUILT_KERNEL := device/amazon/bowser/kernel
-TARGET_SPECIFIC_HEADER_PATH := device/amazon/bowser/src-headers
+TARGET_PREBUILT_KERNEL := $(DEVICE_FOLDER)/kernel
+TARGET_SPECIFIC_HEADER_PATH := $(DEVICE_FOLDER)/src-headers
 
 ifdef ENHANCED_DOMX
     COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
@@ -154,11 +157,21 @@ RECOVERY_TOUCHSCREEN_SWAP_XY := true
 RECOVERY_TOUCHSCREEN_FLIP_Y := true
 TW_NO_REBOOT_BOOTLOADER := true
 TW_NO_REBOOT_RECOVERY := true
-TW_INTERNAL_STORAGE_PATH := "/emmc"
-TW_INTERNAL_STORAGE_MOUNT_POINT := "emmc"
-TW_EXTERNAL_STORAGE_PATH := "/sdcard"
-TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard"
-TW_DEFAULT_EXTERNAL_STORAGE := true
+TW_INTERNAL_STORAGE_PATH := "/datamedia/media"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+BOARD_HAS_NO_REAL_SDCARD := true
+RECOVERY_SDCARD_ON_DATA := true
+TW_ALWAYS_RMRF := true
+TARGET_USERIMAGES_USE_EXT4 := true
+
+# CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
+# added by twa_priv
+TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
+TARGET_USE_KRAIT_PLD_SET := true
+TARGET_KRAIT_BIONIC_PLDOFFS := 10
+TARGET_KRAIT_BIONIC_PLDTHRESH := 10
+TARGET_KRAIT_BIONIC_BBTHRESH := 64
+TARGET_KRAIT_BIONIC_PLDSIZE := 64
 
 # Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true

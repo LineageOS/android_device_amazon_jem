@@ -20,7 +20,7 @@
 #
 # Everything in this directory will become public
 
-DEVICE_FOLDER := device/amazon/bowser
+DEVICE_FOLDER := device/amazon/jem
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := $(DEVICE_FOLDER)/kernel
@@ -66,10 +66,6 @@ PRODUCT_COPY_FILES += \
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/strace
-
-# Art
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/poetry/poem.txt:root/sbin/poem.txt
 
 # gfx. This needs http://git.omapzoom.org/?p=device/ti/proprietary-open.git;a=commit;h=47a8187f2d8a08f7210b3c964b3b8e50f3b0da66
 #PRODUCT_PACKAGES += \
@@ -158,31 +154,6 @@ PRODUCT_AAPT_PREF_CONFIG := mdpi
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
-
-#$(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
-# dont use omap4.mk. We have to drop camera.omap4 for now.
-# Just include rest directly here.
-PRODUCT_VENDOR_KERNEL_HEADERS := hardware/ti/omap4xxx/kernel-headers
-PRODUCT_PACKAGES += \
-	libdomx \
-	libOMX_Core \
-	libOMX.TI.DUCATI1.VIDEO.H264E \
-	libOMX.TI.DUCATI1.VIDEO.MPEG4E \
-	libOMX.TI.DUCATI1.VIDEO.DECODER \
-	libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
-	libOMX.TI.DUCATI1.VIDEO.CAMERA \
-	libOMX.TI.DUCATI1.MISC.SAMPLE \
-	libdrmdecrypt \
-	libstagefrighthw \
-        libI420colorconvert \
-	libtiutils \
-	libcamera \
-	libion \
-	libomxcameraadapter \
-	smc_pa_ctrl \
-	tf_daemon \
-	libtf_crypto_sst \
-	hwcomposer.omap4 \
 
 PRODUCT_PACKAGES += \
 	libjni_pinyinime \
@@ -281,6 +252,7 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
+$(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product-if-exists, vendor/amazon/bowser/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/amazon/bowser/device-vendor-blobs.mk)
 

@@ -1,5 +1,7 @@
-BOWSER_BOOTLOADER := device/amazon/bowser/prebuilt/boot/u-boot.bin
-BOWSER_BOOT_CERT_FILE := device/amazon/bowser/prebuilt/boot/boot_cert
+DEVICE_FOLDER := device/amazon/jem
+
+BOWSER_BOOTLOADER := $(DEVICE_FOLDER)/prebuilt/boot/u-boot.bin
+BOWSER_BOOT_CERT_FILE := $(DEVICE_FOLDER)/prebuilt/boot/boot_cert
 BOWSER_BOOT_ADDRESS := '\x00\x50\x7c\x80'
 BOWSER_STACK_FILE := /tmp/stack.tmp
 

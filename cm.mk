@@ -21,14 +21,14 @@ TARGET_SCREEN_HEIGHT := 1200
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 
 # Inherit device configuration for bowser
-$(call inherit-product, device/amazon/bowser/full_bowser.mk)
+$(call inherit-product, device/amazon/jem/full_jem.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/amazon/bowser/overlay/cm
+DEVICE_PACKAGE_OVERLAYS += device/amazon/jem/overlay/cm
 
 TARGET_HAS_CUSTOM_LIBION := true
 
-PRODUCT_NAME := cm_bowser
-PRODUCT_DEVICE := bowser
+PRODUCT_NAME := cm_jem
+PRODUCT_DEVICE := jem
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := Amazon Kindle Fire HD
 PRODUCT_MANUFACTURER := Amazon

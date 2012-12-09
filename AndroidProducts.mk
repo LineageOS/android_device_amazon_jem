@@ -27,4 +27,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_bowser.mk
+    $(LOCAL_DIR)/full_jem.mk
