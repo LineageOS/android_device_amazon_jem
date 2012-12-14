@@ -80,7 +80,7 @@ BOARD_EGL_CFG := $(DEVICE_FOLDER)/prebuilt/etc/egl.cfg
 
 # Recovery
 TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.rc
-TARGET_RECOVERY_PRE_COMMAND := "echo 0 > /sys/block/mmcblk0boot0/force_ro; echo -n 3 | dd of=/dev/block/mmcblk0boot0 bs=1 count=1 seek=4104 ; sync"
+TARGET_RECOVERY_PRE_COMMAND := "echo 0 > /sys/block/mmcblk0boot0/force_ro; echo -n 7 | dd of=/dev/block/mmcblk0boot0 bs=1 count=1 seek=4104 ; sync"
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 
