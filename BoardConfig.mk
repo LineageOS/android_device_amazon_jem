@@ -98,8 +98,8 @@ TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bow
 # not tested at all
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bowser_img_from_target_files
 
-#TARGET_KERNEL_CONFIG := jem_android_defconfig
-#TARGET_KERNEL_SOURCE := kernel/amazon/jem
+TARGET_KERNEL_CONFIG := jem_android_defconfig
+TARGET_KERNEL_SOURCE := kernel/amazon/jem
 
 #SGX_MODULES:
 #	cp kernel/amazon/jem/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
@@ -154,15 +154,16 @@ endif
 #Config for building TWRP
 DEVICE_RESOLUTION := 1920x1200
 RECOVERY_TOUCHSCREEN_SWAP_XY := true
-RECOVERY_TOUCHSCREEN_FLIP_Y := true
+RECOVERY_TOUCHSCREEN_FLIP_X := true
 TW_NO_REBOOT_BOOTLOADER := true
 TW_NO_REBOOT_RECOVERY := true
-TW_INTERNAL_STORAGE_PATH := "/datamedia/media"
+TW_INTERNAL_STORAGE_PATH := "/data/media"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 BOARD_HAS_NO_REAL_SDCARD := true
 RECOVERY_SDCARD_ON_DATA := true
 TW_ALWAYS_RMRF := true
 TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
 # added by twa_priv
