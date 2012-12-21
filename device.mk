@@ -37,12 +37,14 @@ PRODUCT_PACKAGES += \
     hwcomposer.bowser \
     lights.bowser \
     power.bowser \
-    sensors.bowser \
     camera.bowser \
     audio.a2dp.default \
-    libinvensense_hal_bowser \
-    libmplmpu_bowser \
-    libmllite_bowser
+
+# Disable for now and use prebuilts
+#    sensors.bowser \
+#    libinvensense_hal_bowser \
+#    libmplmpu_bowser \
+#    libmllite_bowser
 
 #   audio.primary.bowser \
 
@@ -112,7 +114,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/battery_log.sh \
     $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/cond_start_ril \
     $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/emmc_init.sh \
-    $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/start_smc.sh \
     $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/strace \
     $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/temperature_log.sh \
     $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/thermal_setup.sh \
@@ -134,6 +135,7 @@ PRODUCT_COPY_FILES += \
 
 # SMC
 PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/vendor/bin/start_smc.sh \
     $(DEVICE_FOLDER)/firmware/smc_pa.ift:/system/vendor/firmware/smc_pa.ift \
     $(DEVICE_FOLDER)/prebuilt/etc/smc_normal_world_android_cfg.ini:/system/etc/smc_normal_world_android_cfg.ini \
 
