@@ -128,10 +128,15 @@ PRODUCT_COPY_FILES += \
 #    $(DEVICE_FOLDER)/firmware/wifi/firmware.bin:system/etc/wifi/firmware.bin \
 #    $(DEVICE_FOLDER)/prebuilt/etc/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 
-# Ducati / Firmware
+# Ducati
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin \
     $(DEVICE_FOLDER)/firmware/smc_pa.ift:/system/vendor/firmware/smc_pa.ift \
+
+# SMC
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/firmware/smc_pa.ift:/system/vendor/firmware/smc_pa.ift \
+    $(DEVICE_FOLDER)/prebuilt/etc/smc_normal_world_android_cfg.ini:/system/etc/smc_normal_world_android_cfg.ini \
 
 # Media files
 PRODUCT_COPY_FILES += \
