@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2012 Samsung
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,44 +14,30 @@
  * limitations under the License.
  */
 
-#ifndef ANDROID_KXTF9_SENSOR_H
-#define ANDROID_KXTF9_SENSOR_H
+#ifndef ANDROID_PRESSURE_SENSOR_H
+#define ANDROID_PRESSURE_SENSOR_H
 
 #include <stdint.h>
 #include <errno.h>
 #include <sys/cdefs.h>
 #include <sys/types.h>
 
-
-#include "nusensors.h"
-#include "SensorBase.h"
+#include "sensors.h"
+#include "IioSensorBase.h"
 #include "InputEventReader.h"
-
-#define KXTF9_ENABLE_FILE "/sys/bus/i2c/drivers/kxtf9/1-000e/enable"
-#define KXTF9_DELAY_FILE  "/sys/bus/i2c/drivers/kxtf9/1-000e/delay"
 
 /*****************************************************************************/
 
-struct input_event;
+struct iio_event_data;
 
-class Kxtf9Sensor : public SensorBase {
+class PressureSensor:public IioSensorBase {
+    virtual void handleData(int value);
+
 public:
-            Kxtf9Sensor();
-    virtual ~Kxtf9Sensor();
-
-    virtual int setDelay(int32_t handle, int64_t ns);
-    virtual int enable(int32_t handle, int enabled);
-    virtual int readEvents(sensors_event_t* data, int count);
-    void processEvent(int code, int value);
-
-private:
-    uint32_t mEnabled;
-    InputEventCircularReader mInputReader;
-    sensors_event_t mPendingEvent;
-
-    int isEnabled();
+    PressureSensor();
 };
 
 /*****************************************************************************/
 
-#endif  // ANDROID_AKM_SENSOR_H
+#endif /* ANDROID_PRESSURE_SENSOR_H */
+

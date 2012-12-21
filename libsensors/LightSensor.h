@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2012 Samsung
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,37 +14,29 @@
  * limitations under the License.
  */
 
-#ifndef ANDROID_INPUT_EVENT_READER_H
-#define ANDROID_INPUT_EVENT_READER_H
+#ifndef ANDROID_LIGHT_SENSOR_H
+#define ANDROID_LIGHT_SENSOR_H
 
 #include <stdint.h>
 #include <errno.h>
 #include <sys/cdefs.h>
 #include <sys/types.h>
+
 #include "sensors.h"
-#include "iio/events.h"
+#include "IioSensorBase.h"
+#include "InputEventReader.h"
 
 /*****************************************************************************/
 
 struct iio_event_data;
 
-class InputEventCircularReader
-{
-    struct iio_event_data* const mBuffer;
-    struct iio_event_data* const mBufferEnd;
-    struct iio_event_data* mHead;
-    struct iio_event_data* mCurr;
-    size_t mMaxEvents;
-    size_t mFreeEvents;
+class LightSensor:public IioSensorBase {
+    virtual void handleData(int value);
 
 public:
-    InputEventCircularReader(size_t numEvents);
-    ~InputEventCircularReader();
-    ssize_t fill(int fd);
-    bool readEvent(int fd, iio_event_data const** events);
-    void next();
+    LightSensor();
 };
 
 /*****************************************************************************/
 
-#endif  /* ANDROID_INPUT_EVENT_READER_H */
+#endif  /* ANDROID_LIGHT_SENSOR_H */

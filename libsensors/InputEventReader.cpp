@@ -30,14 +30,20 @@
 
 /*****************************************************************************/
 
-struct input_event;
+template <typename T>
+static inline T min(T a, T b) {
+    return a<b ? a : b;
+}
+
+struct iio_event_data;
 
 InputEventCircularReader::InputEventCircularReader(size_t numEvents)
-    : mBuffer(new input_event[numEvents * 2]),
+    : mBuffer(new iio_event_data[numEvents]),
       mBufferEnd(mBuffer + numEvents),
       mHead(mBuffer),
       mCurr(mBuffer),
-      mFreeSpace(numEvents)
+      mMaxEvents(numEvents),
+      mFreeEvents(numEvents)
 {
 }
 
@@ -49,40 +55,58 @@ InputEventCircularReader::~InputEventCircularReader()
 ssize_t InputEventCircularReader::fill(int fd)
 {
     size_t numEventsRead = 0;
-    if (mFreeSpace) {
-        const ssize_t nread = read(fd, mHead, mFreeSpace * sizeof(input_event));
-        if (nread<0 || nread % sizeof(input_event)) {
-            // we got a partial event!!
-            return nread<0 ? -errno : -EINVAL;
+    if (mFreeEvents) {
+        struct iovec iov[2];
+
+        const size_t numFirst = min(mFreeEvents, (size_t)(mBufferEnd - mHead));
+        const ssize_t numSecond = mFreeEvents - numFirst;
+
+        int iovcnt = 1;
+        iov[0].iov_base = mHead;
+        iov[0].iov_len = numFirst * sizeof(iio_event_data);
+
+        if (numSecond > 0) {
+            iovcnt++;
+            iov[1].iov_base = mBuffer;
+            iov[1].iov_len = numSecond * sizeof(iio_event_data);
         }
 
-        numEventsRead = nread / sizeof(input_event);
+        const ssize_t nread = readv(fd, iov, iovcnt);
+        if (nread < 0 || nread % sizeof(iio_event_data)) {
+            // we got a partial event!!
+            return nread < 0 ? -errno : -EINVAL;
+        }
+
+        numEventsRead = nread / sizeof(iio_event_data);
         if (numEventsRead) {
             mHead += numEventsRead;
-            mFreeSpace -= numEventsRead;
-            if (mHead > mBufferEnd) {
-                size_t s = mHead - mBufferEnd;
-                memcpy(mBuffer, mBufferEnd, s * sizeof(input_event));
-                mHead = mBuffer + s;
-            }
+            mFreeEvents -= numEventsRead;
+            if (mHead >= mBufferEnd)
+                mHead -= mMaxEvents;
         }
     }
 
     return numEventsRead;
 }
 
-ssize_t InputEventCircularReader::readEvent(input_event const** events)
+bool InputEventCircularReader::readEvent(int fd, iio_event_data const** events)
 {
+    if (mFreeEvents >= mMaxEvents) {
+        ssize_t eventCount = fill(fd);
+        if (eventCount <= 0)
+            return false;
+    }
     *events = mCurr;
-    ssize_t available = (mBufferEnd - mBuffer) - mFreeSpace;
-    return available ? 1 : 0;
+    return true;
 }
 
 void InputEventCircularReader::next()
 {
     mCurr++;
-    mFreeSpace++;
     if (mCurr >= mBufferEnd) {
         mCurr = mBuffer;
+    }
+    if (mFreeEvents < mMaxEvents) {
+       mFreeEvents++;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2012 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#define LOG_TAG "Sensors"
+
 #include <fcntl.h>
 #include <errno.h>
 #include <math.h>
@@ -24,48 +26,57 @@
 
 #include <cutils/log.h>
 
-#include <linux/input.h>
-
 #include "SensorBase.h"
+#include "iio/events.h"
+
+#define IIO_MAX_NAME_LENGTH 30
+
+const char *iio_dir = "/sys/bus/iio/devices/";
 
 /*****************************************************************************/
 
 SensorBase::SensorBase(
         const char* dev_name,
         const char* data_name)
-    : dev_name(dev_name), data_name(data_name),
-      dev_fd(-1), data_fd(-1)
+    : mDevName(dev_name), mDataName(data_name),
+      mDevFd(-1), mDataFd(-1)
 {
-    data_fd = openInput(data_name);
+    ALOGV("%s(): dev_name=%s", __func__, dev_name);
+    if (mDataName) {
+        mDataFd = openInput(mDataName);
+    }
 }
 
 SensorBase::~SensorBase() {
-    if (data_fd >= 0) {
-        close(data_fd);
+    if (mDataFd >= 0) {
+        close(mDataFd);
     }
-    if (dev_fd >= 0) {
-        close(dev_fd);
+    if (mDevFd >= 0) {
+        close(mDevFd);
     }
 }
 
-int SensorBase::open_device() {
-    if (dev_fd<0 && dev_name) {
-        dev_fd = open(dev_name, O_RDONLY);
-        ALOGE_IF(dev_fd<0, "Couldn't open %s (%s)", dev_name, strerror(errno));
+int SensorBase::openDevice() {
+    if ((mDevFd < 0) && mDevName) {
+        mDevFd = open(mDevName, O_RDONLY);
+        ALOGE_IF(mDevFd < 0, "Couldn't open %s (%s)", mDevName, strerror(errno));
     }
     return 0;
 }
 
-int SensorBase::close_device() {
-    if (dev_fd >= 0) {
-        close(dev_fd);
-        dev_fd = -1;
+int SensorBase::closeDevice() {
+    if (mDevFd >= 0) {
+        close(mDevFd);
+        mDevFd = -1;
     }
     return 0;
 }
 
 int SensorBase::getFd() const {
-    return data_fd;
+    if (!mDataName) {
+        return mDevFd;
+    }
+    return mDataFd;
 }
 
 int SensorBase::setDelay(int32_t handle, int64_t ns) {
@@ -83,40 +94,82 @@ int64_t SensorBase::getTimestamp() {
     return int64_t(t.tv_sec)*1000000000LL + t.tv_nsec;
 }
 
-int SensorBase::openInput(const char* inputName) {
-    int fd = -1;
-    const char *dirname = "/dev/input";
-    char devname[PATH_MAX];
-    char *filename;
-    DIR *dir;
-    struct dirent *de;
-    dir = opendir(dirname);
-    if(dir == NULL)
-        return -1;
-    strcpy(devname, dirname);
-    filename = devname + strlen(devname);
-    *filename++ = '/';
-    while((de = readdir(dir))) {
-        if(de->d_name[0] == '.' &&
-                (de->d_name[1] == '\0' ||
-                        (de->d_name[1] == '.' && de->d_name[2] == '\0')))
-            continue;
-        strcpy(filename, de->d_name);
-        fd = open(devname, O_RDONLY);
-        if (fd>=0) {
-            char name[80];
-            if (ioctl(fd, EVIOCGNAME(sizeof(name) - 1), &name) < 1) {
-                name[0] = '\0';
+/*
+ * find_type_by_name() - function to match top level types by name
+ * @name: top level type instance name
+ * @type: the type of top level instance being sort
+ *
+ * Typical types this is used for are device and trigger.
+ *
+ * NOTE: This function is copied from drivers/staging/iio/Documentation/iio_utils.h
+ * and modified.
+ */
+int SensorBase::findTypeByName(const char *name, const char *type)
+{
+    const struct dirent *ent;
+    int iio_id;
+    int ret = -ENODEV;
+
+    FILE *nameFile;
+    DIR *dp;
+    char thisname[IIO_MAX_NAME_LENGTH];
+    char filename[PATH_MAX];
+
+    dp = opendir(iio_dir);
+    if (dp == NULL) {
+        ALOGE("No industrialio devices available");
+        return ret;
+    }
+
+    while (ent = readdir(dp), ent != NULL) {
+        if (strcmp(ent->d_name, ".") != 0 &&
+            strcmp(ent->d_name, "..") != 0 &&
+            strlen(ent->d_name) > strlen(type) &&
+            strncmp(ent->d_name, type, strlen(type)) == 0) {
+            if (sscanf(ent->d_name + strlen(type), "%d", &iio_id) != 1)
+                continue;
+
+            sprintf(filename, "%s%s%d/name", iio_dir, type, iio_id);
+            nameFile = fopen(filename, "r");
+            if (!nameFile)
+                continue;
+
+            if (fscanf(nameFile, "%s", thisname) == 1) {
+                if (strcmp(name, thisname) == 0) {
+                    fclose(nameFile);
+                    ret = iio_id;
+                    break;
+                }
             }
-            if (!strcmp(name, inputName)) {
-                break;
-            } else {
-                close(fd);
-                fd = -1;
-            }
+            fclose(nameFile);
         }
     }
-    closedir(dir);
-    ALOGE_IF(fd<0, "couldn't find '%s' input device", inputName);
-    return fd;
+    closedir(dp);
+    return ret;
+}
+
+int SensorBase::openInput(const char* inputName) {
+    int event_fd = -1;
+    char devname[PATH_MAX];
+    int dev_num;
+
+    dev_num =  findTypeByName(inputName, "iio:device");
+    if (dev_num >= 0) {
+        int fd;
+        sprintf(devname, "/dev/iio:device%d", dev_num);
+        fd = open(devname, O_RDONLY);
+        if (fd >= 0) {
+            if (ioctl(fd, IIO_GET_EVENT_FD_IOCTL, &event_fd) >= 0)
+                strcpy(mInputName, devname + 5);
+            else
+                ALOGE("couldn't get a event fd from %s", devname);
+            close(fd); /* close /dev/iio:device* */
+        } else {
+            ALOGE("couldn't open %s (%s)", devname, strerror(errno));
+        }
+    } else {
+       ALOGE("couldn't find the device %s", inputName);
+    }
+
+    return event_fd;
 }

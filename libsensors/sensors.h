@@ -14,37 +14,29 @@
  * limitations under the License.
  */
 
-#ifndef ANDROID_INPUT_EVENT_READER_H
-#define ANDROID_INPUT_EVENT_READER_H
+#ifndef ANDROID_SAMSUNG_SENSORS_H
+#define ANDROID_SAMSUNG_SENSORS_H
 
 #include <stdint.h>
 #include <errno.h>
 #include <sys/cdefs.h>
 #include <sys/types.h>
-#include "sensors.h"
-#include "iio/events.h"
+
+#include <hardware/hardware.h>
+#include <hardware/sensors.h>
+
+__BEGIN_DECLS
 
 /*****************************************************************************/
 
-struct iio_event_data;
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
-class InputEventCircularReader
-{
-    struct iio_event_data* const mBuffer;
-    struct iio_event_data* const mBufferEnd;
-    struct iio_event_data* mHead;
-    struct iio_event_data* mCurr;
-    size_t mMaxEvents;
-    size_t mFreeEvents;
-
-public:
-    InputEventCircularReader(size_t numEvents);
-    ~InputEventCircularReader();
-    ssize_t fill(int fd);
-    bool readEvent(int fd, iio_event_data const** events);
-    void next();
-};
+#define ID_SAMSUNG_BASE (0x1000)
+#define ID_L  (ID_SAMSUNG_BASE)
+#define ID_PR (ID_L + 1)
 
 /*****************************************************************************/
 
-#endif  /* ANDROID_INPUT_EVENT_READER_H */
+__END_DECLS
+
+#endif  /* ANDROID_SAMSUNG_SENSORS_H */

@@ -15,29 +15,29 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(TARGET_SIMULATOR),true)
-
-# HAL module implemenation, not prelinked, and stored in
+# HAL module implemenation stored in
 # hw/<SENSORS_HARDWARE_MODULE_ID>.<ro.product.board>.so
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := sensors.bowser
 
+LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 
 LOCAL_MODULE_TAGS := optional
-
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
+LOCAL_CFLAGS += -DINVENSENSE_COMPASS_CAL
+LOCAL_CFLAGS += -DCOMPASS_AMI306
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../invensense/
 LOCAL_SRC_FILES := \
-	sensors.c \
-	nusensors.cpp \
-	InputEventReader.cpp \
-	SensorBase.cpp \
-	Kxtf9.cpp
+    sensors.cpp \
+    IioSensorBase.cpp \
+    InputEventReader.cpp \
+    LightSensor.cpp \
+    PressureSensor.cpp \
+    SensorBase.cpp
 
-LOCAL_SHARED_LIBRARIES := liblog libcutils
-LOCAL_PRELINK_MODULE := false
+LOCAL_SHARED_LIBRARIES := libinvensense_hal_bowser liblog libutils libdl
 
 include $(BUILD_SHARED_LIBRARY)
 
-endif # !TARGET_SIMULATOR
