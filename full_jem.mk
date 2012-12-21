@@ -1,5 +1,4 @@
-# Copyright (C) 2009 The Android Open Source Project
-# Copyright (C) 2011 The CyanogenMod Project
+# Copyright (C) 2012 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +18,18 @@
 # device-specific aspects (drivers) with a device-agnostic
 # product configuration (apps).
 #
+
+# Camera and Gallery
+PRODUCT_PACKAGES := \
+        Gallery
+
+# Live Wallpapers
+PRODUCT_PACKAGES += \
+        LiveWallpapers \
+        LiveWallpapersPicker \
+        MagicSmokeWallpapers \
+        VisualizationWallpapers \
+        librs_jni
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)

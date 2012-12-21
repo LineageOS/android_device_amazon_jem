@@ -1,30 +1,19 @@
-# Copyright (C) 2007 The Android Open Source Project
-# Copyright (C) 2011 The CyanogenMod Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# BoardConfig.mk
-#
-# Product-specific compile-time definitions.
-#
 DEVICE_FOLDER := device/amazon/jem
 
-USE_CAMERA_STUB := false
+PRODUCT_VENDOR_KERNEL_HEADERS := $(DEVICE_FOLDER)/kernel-headers
+TARGET_SPECIFIC_HEADER_PATH := $(DEVICE_FOLDER)/include
+
+# This variable is set first, so it can be overridden
+# by BoardConfigVendor.mk
 BOARD_USES_GENERIC_AUDIO := false
-#BOARD_HAVE_FAKE_GPS := true
+
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_FOLDER)/bluetooth
+
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-TI_OMAP4_CAMERAHAL_VARIANT := false
+
+TI_OMAP4_CAMERAHAL_VARIANT := true
+USE_CAMERA_STUB := false
 
 OMAP_ENHANCEMENT := true
 #OMAP_ENHANCEMENT_BURST_CAPTURE := true
@@ -33,12 +22,12 @@ OMAP_ENHANCEMENT := true
 #OMAP_ENHANCEMENT_VTC := true
 OMAP_ENHANCEMENT_MULTIGPU := true
 ENHANCED_DOMX := true
+BOARD_PROVIDES_CUSTOM_DOMX := true
 
 # inherit from the proprietary version
 -include vendor/amazon/jem/BoardConfigVendor.mk
 
 # Processor 
-TARGET_BOARD_PLATFORM := omap4
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
@@ -47,14 +36,20 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
-TARGET_BOOTLOADER_BOARD_NAME := bowser
 
 # Kernel/Boot
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 mem=1G vmalloc=256M init=/init androidboot.console=ttyO2 androidboot.hardware=bowser
-TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
+TARGET_BOARD_PLATFORM := omap4
+TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_BOARD_NAME := bowser
+
+# Kernel Build
+TARGET_KERNEL_SOURCE := kernel/amazon/jem
+TARGET_KERNEL_CONFIG := jem_android_defconfig
+TARGET_PREBUILT_KERNEL := $(DEVICE_FOLDER)/kernel
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -64,19 +59,34 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 929038336
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12949893120
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-# WIFI
+# Connectivity - Wi-Fi
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
 WPA_SUPPLICANT_VERSION           := VER_0_8_X
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
 BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
+BOARD_WLAN_DEVICE                := bcmdhd
+BOARD_WLAN_DEVICE_REV            := bcm4330_b1
+WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path"
+#WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/bcmdhd.ko"
+WIFI_DRIVER_FW_PATH_STA          := "/vendor/firmware/fw_bcmdhd.bin"
+WIFI_DRIVER_FW_PATH_P2P          := "/vendor/firmware/fw_bcmdhd_p2p.bin"
+WIFI_DRIVER_FW_PATH_AP           := "/vendor/firmware/fw_bcmdhd_apsta.bin"
 PRODUCT_WIRELESS_TOOLS           := true
+
+# adb has root
+ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
+ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
 
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 32
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
 # Graphics
-USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := $(DEVICE_FOLDER)/prebuilt/etc/egl.cfg
+USE_OPENGL_RENDERER := true
+# set if the target supports FBIO_WAITFORVSYNC
+TARGET_HAS_WAITFORVSYNC := true
 
 # Recovery
 TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.rc
@@ -84,40 +94,41 @@ TARGET_RECOVERY_PRE_COMMAND := "echo 0 > /sys/block/mmcblk0boot0/force_ro; echo 
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 
-# adb has root
-ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
-ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
+#Config for building TWRP
+DEVICE_RESOLUTION := 1920x1200
+RECOVERY_TOUCHSCREEN_SWAP_XY := true
+RECOVERY_TOUCHSCREEN_FLIP_X := true
+TW_NO_REBOOT_BOOTLOADER := true
+TW_NO_REBOOT_RECOVERY := true
+TW_INTERNAL_STORAGE_PATH := "/data/media"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+#BOARD_HAS_NO_REAL_SDCARD := true
+RECOVERY_SDCARD_ON_DATA := true
+TW_ALWAYS_RMRF := true
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+TW_CUSTOM_POWER_BUTTON := 107
+BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 
-# boot.img creation
+
+# OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_FOLDER)/boot.mk
-TARGET_NO_BOOTLOADER := true
 #TARGET_PROVIDES_RELEASETOOLS := true
+TARGET_CUSTOM_RELEASETOOL := ./$(DEVICE_FOLDER)/releasetools/squisher
 
 # hack the ota
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bowser_ota_from_target_files
 # not tested at all
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bowser_img_from_target_files
 
-TARGET_KERNEL_CONFIG := jem_android_defconfig
-TARGET_KERNEL_SOURCE := kernel/amazon/jem
-
-#SGX_MODULES:
-#	cp kernel/amazon/jem/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
-#	make ARCH="arm" -C kernel/amazon/jem/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0  KERNEL_CROSS_COMPILE=arm-eabi- KERNELDIR=$(KERNEL_OUT)
-#	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
-
-#TARGET_KERNEL_MODULES := SGX_MODULES
-
+# Audio
 TARGET_PROVIDES_LIBAUDIO := true
 COMMON_GLOBAL_CFLAGS += -DICS_AUDIO_BLOB
 
-# Keep this as a fallback
-TARGET_PREBUILT_KERNEL := $(DEVICE_FOLDER)/kernel
-TARGET_SPECIFIC_HEADER_PATH := $(DEVICE_FOLDER)/src-headers
 
 ifdef ENHANCED_DOMX
     COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
-    DOMX_PATH := hardware/ti/domx
+    DOMX_PATH := $(DEVICE_FOLDER)/domx
 else
     DOMX_PATH := hardware/ti/omap4xxx/domx
 endif
@@ -151,21 +162,10 @@ ifdef OMAP_ENHANCEMENT_MULTIGPU
     COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_MULTIGPU
 endif
 
-#Config for building TWRP
-DEVICE_RESOLUTION := 1920x1200
-RECOVERY_TOUCHSCREEN_SWAP_XY := true
-RECOVERY_TOUCHSCREEN_FLIP_X := true
-TW_NO_REBOOT_BOOTLOADER := true
-TW_NO_REBOOT_RECOVERY := true
-TW_INTERNAL_STORAGE_PATH := "/data/media"
-TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
-#BOARD_HAS_NO_REAL_SDCARD := true
-RECOVERY_SDCARD_ON_DATA := true
-TW_ALWAYS_RMRF := true
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-TW_CUSTOM_POWER_BUTTON := 107
-BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
+
+# Misc.
+BOARD_NEEDS_CUTILS_LOG := true
+BOARD_USES_SECURE_SERVICES := true
 
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
 # added by twa_priv
