@@ -31,9 +31,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <ion/ion.h>
-#include <linux/ion.h>
-#include <linux/omap_ion.h>
+#include "ion.h"
 
 size_t len = 1024*1024, align = 0;
 int prot = PROT_READ | PROT_WRITE;

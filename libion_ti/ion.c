@@ -17,9 +17,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-#define LOG_TAG "ion"
-
-#include <cutils/log.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -27,8 +24,10 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 
-#include <linux/ion.h>
-#include <ion/ion.h>
+#define LOG_TAG "ion"
+#include <cutils/log.h>
+
+#include "ion.h"
 
 int ion_open()
 {
