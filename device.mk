@@ -131,7 +131,6 @@ PRODUCT_COPY_FILES += \
 # Ducati
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin \
-    $(DEVICE_FOLDER)/firmware/smc_pa.ift:/system/vendor/firmware/smc_pa.ift \
 
 # SMC
 PRODUCT_COPY_FILES += \
@@ -143,6 +142,10 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/audio_policy.conf:/system/etc/audio_policy.conf \
     $(DEVICE_FOLDER)/prebuilt/etc/media_codecs.xml:/system/etc/media_codecs.xml \
     $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
+
+# ATT APNs for LTE Model
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/prebuilt/etc/apns-conf.xml:/system/etc/apns-conf.xml \
 
 # Input
 PRODUCT_COPY_FILES += \
