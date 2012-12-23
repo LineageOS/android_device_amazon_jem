@@ -90,6 +90,14 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/audio.primary.bowser.so:system/lib/hw/audio.primary.bowser.so
 
+# Sensor BLOBS
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/prebuilt/lib/sensors.omap4.so:system/lib/hw/sensors.omap4.so \
+    $(DEVICE_FOLDER)/prebuilt/lib/libinvensense_hal.so:system/lib/libinvensense_hal.so \
+    $(DEVICE_FOLDER)/prebuilt/lib/libmllite.so:system/lib/libmllite.so \
+    $(DEVICE_FOLDER)/prebuilt/lib/libmlplatform.so:system/lib/libmlplatform.so \
+    $(DEVICE_FOLDER)/prebuilt/lib/libmplmpu.so:system/lib/libmplmpu.so \
+
 # Place permission files
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
@@ -126,18 +134,21 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/firmware/wifi/nvram_jem-wan_usi.txt:system/etc/wifi/nvram_jem-wan_usi.txt \
     $(DEVICE_FOLDER)/firmware/wifi/nvram.txt:system/etc/wifi/bcmdhd.cal \
 
-#    $(DEVICE_FOLDER)/firmware/wifi/firmware.bin:system/etc/wifi/firmware.bin \
 #    $(DEVICE_FOLDER)/prebuilt/etc/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 
+# Remove for now until I fix ducati load crash
 # Ducati
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin \
+    $(DEVICE_FOLDER)/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin.bak \
 
 # SMC
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/vendor/bin/start_smc.sh \
     $(DEVICE_FOLDER)/firmware/smc_pa.ift:/system/vendor/firmware/smc_pa.ift \
     $(DEVICE_FOLDER)/prebuilt/etc/smc_normal_world_android_cfg.ini:/system/etc/smc_normal_world_android_cfg.ini \
+
+# RIL
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/prebuilt/lib/libril-lab126qmi.so:/system/lib/libril-lab126qmi.so \
 
 # Media files
 PRODUCT_COPY_FILES += \
@@ -159,10 +170,6 @@ PRODUCT_COPY_FILES += \
 # Vold
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/vold.fstab:system/etc/vold.fstab
-
-# Audio lib
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/audio.primary.bowser.so:system/lib/hw/audio.primary.bowser.so
 
 # postrecoveryboot for recovery
 PRODUCT_COPY_FILES += \
@@ -225,7 +232,7 @@ PRODUCT_PACKAGES += \
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, $(DEVICE_FOLDER)/prebuilt/camera/vendor-camera.mk)
 $(call inherit-product-if-exists, $(DEVICE_FOLDER)/imgtec/sgx-imgtec-bins.mk)
-$(call inherit-product-if-exists, $(DEVICE_FOLDER)/wlan/device-bcm.mk)
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
 
 $(call inherit-product-if-exists, vendor/amazon/bowser/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/amazon/bowser/device-vendor-blobs.mk)
