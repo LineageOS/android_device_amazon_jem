@@ -40,10 +40,9 @@ on post-fs-data
     chown drmrpc drmrpc /data/smc/counter.bin
     chown drmrpc drmrpc /data/smc/storage.bin
     chown drmrpc drmrpc /data/smc/system.bin
-    start smc
-    start sdcard
 
     setprop vold.post_fs_data_done 1
+    start sdcard
 
 #for Bluetooth HID
     chmod 0666 /dev/uhid
@@ -205,10 +204,33 @@ service setup_fs /system/bin/setup_fs \
     oneshot
 
 #shared transport user space mgr service for Bluetooth, FM and GPS
-service uim /system/bin/uim-sysfs
+#service uim /system/bin/uim-sysfs
+#    class core
+#    user bluetooth
+#    group bluetooth net_bt_admin
+
+###################################################
+# MSHIELD SMC Daemon - component required to store persistent data coming
+#   from the SMC PA to the device persistent storage
+###################################################
+service tf_daemon /system/bin/tf_daemon \
+    -d -c /system/etc/smc_normal_world_android_cfg.ini
+    class main
+    user root
+    group root
+    oneshot
+    disabled
+
+###################################################
+# MSHIELD SMC PA Control - installs the SMC PA into the Secure Environment
+###################################################
+service smc_pa /system/bin/smc_pa_ctrl \
+    -c /system/etc/smc_normal_world_android_cfg.ini \
+    start /vendor/firmware/smc_pa.ift
     class core
-    user bluetooth
-    group bluetooth net_bt_admin
+    user root
+    group root
+    oneshot
 
 # bugreport is triggered by holding down volume down, volume up and home
 service bugreport /system/bin/bugmailer.sh -v
@@ -273,17 +295,11 @@ service iprenew_p2p /system/bin/dhcpcd -n
     oneshot
 
 # GPS daemon
-service gpsd /system/bin/glgps -c /system/etc/gpsconfig.xml
-    disabled
-    class main
-    socket gps seqpacket 0660 gps system
-    group system
-
-# LBS daemon
-service lbsd /system/bin/gllbs -c /system/etc/lbsconfig.xml
-    class main
-    socket lbs seqpacket 0660 lbs system
-    group system
+#service gpsd /system/bin/glgps -c /system/etc/gpsconfig.xml
+#    disabled
+#    class main
+#    socket gps seqpacket 0660 gps system
+#    group system
 
 service battery_log /system/bin/battery_log.sh
     disabled
@@ -304,12 +320,8 @@ service navl_server /system/bin/navd --android_log NAVD  -p3 -nav\"-c/system/etc
     disabled
     oneshot
 
-service smc /system/vendor/bin/start_smc.sh
-    class main
-    user root
-    group root
-    oneshot
-    disabled
+on property:init.svc.smc_pa=stopped
+	start tf_daemon
 
 #conditional start RIL for non-wifi devices
 service ril_cond_start /system/bin/wankit cond_start_ril
