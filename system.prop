@@ -1,5 +1,7 @@
 ro.cwm.forbid_format = /bootloader,/xloader,/misc
 
+rild.libpath=/system/lib/libril-lab126qmi.so
+# rild.libargs=-d /dev/ttyS0
 #define defaults for audio D/A mic and power mode
 omap.audio.mic.main=AMic0    
 omap.audio.mic.sub=AMic1     
