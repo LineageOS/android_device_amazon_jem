@@ -39,6 +39,15 @@ PRODUCT_PACKAGES += \
     power.bowser \
     camera.bowser \
     audio.a2dp.default \
+    audio.usb.default
+
+# Audio
+PRODUCT_PACKAGES += \
+    audio.primary.bowser \
+    audio.hdmi.bowser
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/audio/jem.xml:/system/etc/sound/jem \
+    $(DEVICE_FOLDER)/audio/audio_policy.conf:/system/etc/audio_policy.conf \
 
 # Disable for now and use prebuilts
 #    sensors.bowser \
@@ -46,7 +55,6 @@ PRODUCT_PACKAGES += \
 #    libmplmpu_bowser \
 #    libmllite_bowser
 
-#   audio.primary.bowser \
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -87,8 +95,8 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/ueventd.bowser.rc:root/ueventd.bowser.rc \
 
 # Audio
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/audio.primary.bowser.so:system/lib/hw/audio.primary.bowser.so
+#PRODUCT_COPY_FILES += \
+#    $(DEVICE_FOLDER)/prebuilt/audio.primary.bowser.so:system/lib/hw/audio.primary.bowser.so
 
 # Sensor BLOBS
 PRODUCT_COPY_FILES += \
@@ -128,13 +136,15 @@ PRODUCT_COPY_FILES += \
 
 # WIFI props
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/firmware/wifi/nvram_jem_semco.txt:system/etc/wifi/nvram_jem_semco.txt \
-    $(DEVICE_FOLDER)/firmware/wifi/nvram_jem_usi.txt:system/etc/wifi/nvram_jem_usi.txt \
-    $(DEVICE_FOLDER)/firmware/wifi/nvram_jem-wan_semco.txt:system/etc/wifi/nvram_jem-wan_semco.txt \
-    $(DEVICE_FOLDER)/firmware/wifi/nvram_jem-wan_usi.txt:system/etc/wifi/nvram_jem-wan_usi.txt \
-    $(DEVICE_FOLDER)/firmware/wifi/nvram.txt:system/etc/wifi/bcmdhd.cal \
-
-#    $(DEVICE_FOLDER)/prebuilt/etc/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+    $(DEVICE_FOLDER)/wifi/firmware/nvram_jem_semco.txt:system/etc/wifi/nvram_jem_semco.txt \
+    $(DEVICE_FOLDER)/wifi/firmware/nvram_jem_usi.txt:system/etc/wifi/nvram_jem_usi.txt \
+    $(DEVICE_FOLDER)/wifi/firmware/nvram_jem-wan_semco.txt:system/etc/wifi/nvram_jem-wan_semco.txt \
+    $(DEVICE_FOLDER)/wifi/firmware/nvram_jem-wan_usi.txt:system/etc/wifi/nvram_jem-wan_usi.txt \
+    $(DEVICE_FOLDER)/wifi/firmware/nvram.txt:system/etc/wifi/bcmdhd.cal \
+    $(DEVICE_FOLDER)/wifi/firmware/firmware.bin:system/vendor/firmware/fw_bcmdhd.bin \
+    $(DEVICE_FOLDER)/wifi/firmware/firmware.bin:system/vendor/firmware/fw_bcmdhd_apsta.bin \
+    $(DEVICE_FOLDER)/wifi/firmware/firmware.bin:system/vendor/firmware/fw_bcmdhd_p2p.bin \
+    $(DEVICE_FOLDER)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 
 # Remove for now until I fix ducati load crash
 # Ducati
@@ -152,7 +162,6 @@ PRODUCT_COPY_FILES += \
 
 # Media files
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/etc/audio_policy.conf:/system/etc/audio_policy.conf \
     $(DEVICE_FOLDER)/prebuilt/etc/media_codecs.xml:/system/etc/media_codecs.xml \
     $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
 
@@ -232,7 +241,6 @@ PRODUCT_PACKAGES += \
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, $(DEVICE_FOLDER)/prebuilt/camera/vendor-camera.mk)
 $(call inherit-product-if-exists, $(DEVICE_FOLDER)/imgtec/sgx-imgtec-bins.mk)
-$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
 
 $(call inherit-product-if-exists, vendor/amazon/bowser/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/amazon/bowser/device-vendor-blobs.mk)
