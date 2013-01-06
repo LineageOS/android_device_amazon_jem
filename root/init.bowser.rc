@@ -67,7 +67,7 @@ on boot
 # wi-fi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
-    insmod /system/lib/modules/bcmdhd.ko iface_name=wlan0 firmware_path=/system/etc/wifi/firmware.bin
+    insmod /system/lib/modules/bcmdhd.ko iface_name=wlan0 firmware_path=/system/vendor/firmware/fw_bcmdhd.bin
 
 # GPS
     mkdir /data/gps 0771 system system
@@ -253,7 +253,7 @@ service EmmcInit /system/bin/emmc_init.sh
     group root
     oneshot
 
-#service p2p_supplicant /system/bin/wpa_supplicant -dd \
+#service p2p_supplicant /system/bin/wpa_supplicant \
 #        -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -N \
 #        -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf -e/data/misc/wifi/entropy.bin -puse_p2p_group_interface=1
 #    class main
