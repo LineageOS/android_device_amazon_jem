@@ -185,10 +185,10 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
 
 PRODUCT_PROPERTY_OVERRIDES := \
-    ro.sf.lcd_density=240 \
+    ro.sf.lcd_density=254 \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=120 \
-    hwui.render_dirty_regions=false \
+    hwui.render_dirty_regions=true \
     ro.opengles.version=131072 \
     com.ti.omap_enhancement=true \
     omap.enhancement=true \
