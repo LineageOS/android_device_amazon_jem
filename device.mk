@@ -28,8 +28,8 @@ LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
 
-PRODUCT_AAPT_CONFIG := normal mdpi
-PRODUCT_AAPT_PREF_CONFIG := mdpi
+PRODUCT_AAPT_CONFIG := xlarge hdpi xhdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 
 # Hardware HALs
