@@ -4,7 +4,7 @@ $(call inherit-product, device/amazon/jem/full_jem.mk)
 # Inherit common product files.
 $(call inherit-product, vendor/aokp/configs/common_tablet.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/amazon/otter/overlay/aokp
+DEVICE_PACKAGE_OVERLAYS += device/amazon/jem/overlay/aokp
 
 # Setup device specific product configuration.
 PRODUCT_NAME := aokp_jem

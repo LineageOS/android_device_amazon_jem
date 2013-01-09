@@ -1,5 +1,4 @@
-# CM10-Jellybean for Kindle Fire HD
-Slightly based on Hashcode's Nook Tablet JB repo
+# Jellybean 4.2.1 (CM10.1) Device for Kindle Fire HD 8.9
 
 ## Info
 
@@ -17,12 +16,12 @@ Slightly based on Hashcode's Nook Tablet JB repo
 ### Download sources
 
 ```bash
-mkdir android/system
-cd android/system
+mkdir android
+cd android
 curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/repo
 chmod a+x ~/repo
-repo init -u git://github.com/CyanogenMod/android.git -b jellybean
-wget -O .repo/local_manifest.xml https://github.com/verygreen/android_manifests/raw/master/bowser-jb/local_manifest.xml
+repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1
+wget -O .repo/local_manifest.xml https://raw.github.com/KFire-Android/android_local_manifest/cm-10.1/local_manifest.xml 
 repo sync -j16
 ```
 
@@ -30,6 +29,7 @@ repo sync -j16
 
 ```bash
 . build/envsetup.sh
-lunch cm_bowser-userdebug
+lunch cm_jem-userdebug
 . vendor/cm/get-prebuilts
 mka bacon
+```
