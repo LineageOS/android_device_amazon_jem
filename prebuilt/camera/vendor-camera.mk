@@ -1,4 +1,4 @@
-VENDOR_CAMERA_FOLDER := device/amazon/jem/prebuilt/camera
+VENDOR_CAMERA_FOLDER := $(DEVICE_FOLDER)/prebuilt/camera
 
 #    $(VENDOR_CAMERA_FOLDER)/camera.omap4.so:system/lib/hw/camera.omap4.so \
 # DCC Files
