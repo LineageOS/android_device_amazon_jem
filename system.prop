@@ -23,6 +23,4 @@ cpu.temp.sensor.sysfs.node=/sys/devices/platform/omap/omap_temp_sensor.0/temp1_i
 hotspot.temp.sensor.sysfs.node=/sys/class/thermal_sensor/thermal_sensor0/device/hotspot_temp
 # charge current sys fs node property to be used by ThermalValidation
 charge.current.sysfs.node=/sys/class/power_supply/smb347_usb/device/charge_current
-ro.sf.hwrotation=90
-#for jem wan devices since sms is ON, send should be disabled. For others sms is off so this does not matter
 telephony.sms.send=false
