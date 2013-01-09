@@ -71,7 +71,7 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../omx_core/inc \
 	$(LOCAL_PATH)/../mm_osal/inc \
 	$(LOCAL_PATH)/../domx \
-	$(COMMON_FOLDER)/libion \
+	$(COMMON_FOLDER)/libion_ti \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc
 
 LOCAL_SHARED_LIBRARIES := \
@@ -104,8 +104,8 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
 	system/core/include/cutils \
 	$(COMMON_FOLDER)/hwc \
-	$(COMMON_FOLDER)/camera/inc \
-	frameworks/base/include/media/stagefright \
+	$(DEVICE_FOLDER)/camera/inc \
+	frameworks/native/include/media/stagefright \
 	frameworks/native/include/media/hardware
 
 LOCAL_SHARED_LIBRARIES := \
@@ -140,7 +140,7 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
 	system/core/include/cutils \
 	$(COMMON_FOLDER)/hwc \
-	$(COMMON_FOLDER)/camera/inc \
+	$(DEVICE_FOLDER)/camera/inc \
 	frameworks/base/include/media/stagefright \
 	frameworks/native/include/media/hardware
 
