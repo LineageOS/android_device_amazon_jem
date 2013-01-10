@@ -1,5 +1,4 @@
 LOCAL_PATH:= $(call my-dir)
-COMMON_FOLDER := device/motorola/common
 
 #
 # libOMX.TI.DUCATI1.VIDEO.DECODER
@@ -104,7 +103,7 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
 	system/core/include/cutils \
 	$(COMMON_FOLDER)/hwc \
-	$(DEVICE_FOLDER)/camera/inc \
+	$(COMMON_FOLDER)/camera/inc \
 	frameworks/native/include/media/stagefright \
 	frameworks/native/include/media/hardware
 
@@ -140,7 +139,7 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
 	system/core/include/cutils \
 	$(COMMON_FOLDER)/hwc \
-	$(DEVICE_FOLDER)/camera/inc \
+	$(COMMON_FOLDER)/camera/inc \
 	frameworks/base/include/media/stagefright \
 	frameworks/native/include/media/hardware
 
