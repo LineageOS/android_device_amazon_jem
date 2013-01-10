@@ -16,6 +16,7 @@
 
 DEVICE_FOLDER := device/amazon/jem
 COMMON_FOLDER := device/amazon/omap4-common
+TARGET_BOOTLOADER_BOARD_SUBTYPE := jem
 
 $(call inherit-product, $(COMMON_FOLDER)/common.mk)
 
@@ -31,11 +32,6 @@ PRODUCT_PACKAGES += \
     camera.bowser \
     audio.primary.bowser \
     audio.hdmi.bowser \
-
-# Wifi
-PRODUCT_PACKAGES += \
-    lib_driver_cmd_bcmdhd \
-    libnetcmdiface
 
 # BT
 PRODUCT_PACKAGES += \
@@ -59,9 +55,6 @@ PRODUCT_COPY_FILES += \
 # Remove ducati for now until I fix ducati load crash
 # Prebuilt firmware
 PRODUCT_COPY_FILES += \
-    $(COMMON_FOLDER)/wifi/firmware/firmware-jem.bin:system/vendor/firmware/fw_bcmdhd.bin \
-    $(COMMON_FOLDER)/wifi/firmware/firmware-jem.bin:system/vendor/firmware/fw_bcmdhd_apsta.bin \
-    $(COMMON_FOLDER)/wifi/firmware/firmware-jem.bin:system/vendor/firmware/fw_bcmdhd_p2p.bin \
     $(DEVICE_FOLDER)/firmware/smc_pa.ift:/system/vendor/firmware/smc_pa.ift \
     $(DEVICE_FOLDER)/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin.bak \
 
@@ -74,12 +67,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/apns-conf.xml:/system/etc/apns-conf.xml \
     $(DEVICE_FOLDER)/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
     $(DEVICE_FOLDER)/prebuilt/etc/smc_normal_world_android_cfg.ini:/system/etc/smc_normal_world_android_cfg.ini \
-    $(COMMON_FOLDER)/wifi/firmware/nvram_jem_semco.txt:system/etc/wifi/nvram_jem_semco.txt \
-    $(COMMON_FOLDER)/wifi/firmware/nvram_jem_usi.txt:system/etc/wifi/nvram_jem_usi.txt \
-    $(COMMON_FOLDER)/wifi/firmware/nvram_jem-wan_semco.txt:system/etc/wifi/nvram_jem-wan_semco.txt \
-    $(COMMON_FOLDER)/wifi/firmware/nvram_jem-wan_usi.txt:system/etc/wifi/nvram_jem-wan_usi.txt \
-    $(COMMON_FOLDER)/wifi/firmware/nvram.txt:system/etc/wifi/bcmdhd.cal \
-    $(COMMON_FOLDER)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
@@ -100,7 +87,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
 
-PRODUCT_PROPERTY_OVERRIDES := \
+PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=254 \
     ro.sf.hwrotation=90 \
     persist.hwc.mirroring.region=0:0:1920:1200 \
@@ -113,3 +100,4 @@ PRODUCT_PROPERTY_OVERRIDES := \
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, $(DEVICE_FOLDER)/prebuilt/camera/vendor-camera.mk)
 $(call inherit-product-if-exists, $(COMMON_FOLDER)/imgtec/sgx-imgtec-bins-544.mk)
+$(call inherit-product-if-exists, $(COMMON_FOLDER)/bcmdhd-wifi/bcmdhd-wifi.mk)
