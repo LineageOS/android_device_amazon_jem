@@ -29,9 +29,6 @@ on boot
     # reduce backlight usage in recovery
     write /sys/class/backlight/lcd-backlight/brightness 200
 
-    # compatibility w/ 2.6 kernels
-    symlink /dev/block/platform/omap/omap_hsmmc.1 /dev/block/platform/mmci-omap-hs.1
-
     ifup lo
     hostname localhost
     domainname localdomain
