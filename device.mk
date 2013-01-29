@@ -3,6 +3,11 @@ TARGET_BOOTLOADER_BOARD_SUBTYPE := jem
 
 $(call inherit-product, device/amazon/bowser-common/common.mk)
 
+# Device overlay
+DEVICE_PACKAGE_OVERLAYS += $(DEVICE_FOLDER)/overlay
+
+PRODUCT_AAPT_CONFIG := xlarge hdpi xhdpi
+
 # Rootfs
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/init.bowser.rc:root/init.bowser.rc
@@ -11,7 +16,7 @@ PRODUCT_COPY_FILES += \
 # Prebuilt firmware
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/firmware/smc_pa.ift:/system/vendor/firmware/smc_pa.ift \
-    $(DEVICE_FOLDER)/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin.bak \
+    $(DEVICE_FOLDER)/firmware/ducati-m3.bin:/system/vendor/firmware/ducati-m3.bin.bak
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
