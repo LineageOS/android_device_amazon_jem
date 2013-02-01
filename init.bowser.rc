@@ -152,7 +152,7 @@ on post-fs
     chmod 0666 /dev/rfkill
 
 # change permissions for Backlight
-    chmod 0660 /sys/class/backlight/bowser/brightness
+    chmod 0666 /sys/class/backlight/bowser/brightness
     chown system graphics /sys/class/backlight/bowser/brightness
 
 # change permissions for HDMI certification support, to be removed on user build
