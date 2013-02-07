@@ -19,6 +19,6 @@ $(call inherit-product, device/amazon/jem/device.mk)
 # Discard inherited values and use our own instead.
 PRODUCT_NAME := full_jem
 PRODUCT_DEVICE := jem
-PRODUCT_BRAND := amazon
+PRODUCT_BRAND := google
 PRODUCT_MODEL := Kindle Fire HD
 PRODUCT_MANUFACTURER := amazon
