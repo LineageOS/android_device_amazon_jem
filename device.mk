@@ -12,6 +12,7 @@ PRODUCT_AAPT_CONFIG := xlarge hdpi xhdpi
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/init.bowser.rc:root/init.bowser.rc \
     $(DEVICE_FOLDER)/init.bowser.usb.rc:root/init.bowser.usb.rc \
+    $(DEVICE_FOLDER)/ueventd.bowser.rc:root/ueventd.bowser.rc
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
