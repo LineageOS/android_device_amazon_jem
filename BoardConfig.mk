@@ -1,4 +1,5 @@
 DEVICE_FOLDER := device/amazon/jem
+TARGET_BOARD_OMAP_CPU := 4470
 
 # inherit from common
 -include device/amazon/bowser-common/BoardConfigCommon.mk
