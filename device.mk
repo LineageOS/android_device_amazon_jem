@@ -48,6 +48,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapminfree=512k \
     dalvik.vm.heapmaxfree=8m
 
-$(call inherit-product-if-exists, vendor/invensense/jem/device-partial.mk)
-$(call inherit-product-if-exists, vendor/imgtec/amazon-common/device-partial-544.mk)
 $(call inherit-product-if-exists, vendor/amazon/jem/jem-vendor.mk)
