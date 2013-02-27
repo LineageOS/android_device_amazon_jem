@@ -23,7 +23,6 @@
 #
 
 # HALs
-lib/hw/audio.primary.bowser.so
 lib/hw/sensors.omap4.so
 
 # Libs
