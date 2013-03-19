@@ -16,8 +16,9 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/etc/jem.xml:/system/etc/sound/jem \
-    $(DEVICE_FOLDER)/prebuilt/etc/apns-conf.xml:/system/etc/apns-conf.xml
+    $(DEVICE_FOLDER)/prebuilt/etc/jem.xml:/system/etc/sound/jem
+
+#    $(DEVICE_FOLDER)/prebuilt/etc/apns-conf.xml:/system/etc/apns-conf.xml
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
