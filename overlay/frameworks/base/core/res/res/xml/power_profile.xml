@@ -17,10 +17,10 @@
 <device name="Android">
   <!-- All values are in mAh except as noted -->
   <item name="none">0</item>
-  <item name="screen.on">55</item>
+  <item name="screen.on">85</item>
   <item name="bluetooth.active">142</item>
   <item name="bluetooth.on">1</item>
-  <item name="screen.full">115</item>
+  <item name="screen.full">165</item>
   <item name="wifi.on">4</item>
   <item name="wifi.active">130</item>
   <item name="wifi.scan">104</item>
@@ -48,10 +48,11 @@
   <item name="cpu.idle">4</item>
   <!-- Power consumption at different speeds -->
   <array name="cpu.active">
+      <value>400</value>
+      <value>350</value>
       <value>300</value>
-      <value>280</value>
-      <value>200</value>
-      <value>160</value>
+      <value>230</value>
+      <value>130</value>
   </array>
   <!-- This is the battery capacity in mAh -->
   <item name="battery.capacity">6100</item>
