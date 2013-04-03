@@ -26,12 +26,9 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl\
     $(DEVICE_FOLDER)/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
 
-# Fix for market app compatibility
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=240
-
 # Device settings
 PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=240 \
     ro.sf.hwrotation=90 \
     persist.hwc.mirroring.region=0:0:1920:1200 \
     persist.hwc.mirroring.transform=1 \
