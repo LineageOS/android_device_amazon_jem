@@ -14,10 +14,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/init.bowser.usb.rc:root/init.bowser.usb.rc \
     $(DEVICE_FOLDER)/ueventd.bowser.rc:root/ueventd.bowser.rc
 
-# Prebuilts /system/etc
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/etc/jem.xml:/system/etc/sound/jem
-
 #    $(DEVICE_FOLDER)/prebuilt/etc/apns-conf.xml:/system/etc/apns-conf.xml
 
 # Prebuilt /system/usr
