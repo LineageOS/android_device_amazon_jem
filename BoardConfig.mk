@@ -21,9 +21,6 @@ SGX_MODULES:
 
 TARGET_KERNEL_MODULES += SGX_MODULES
 
-# Graphics
-BOARD_EGL_CFG := $(DEVICE_FOLDER)/prebuilt/etc/egl.cfg
-
 # OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_FOLDER)/boot.mk
 
