@@ -57,7 +57,6 @@ on boot
     mount debugfs /sys/kernel/debug /sys/kernel/debug
     chmod 0666 /dev/pvrsrvkm
     setprop ro.crypto.keyfile.userdata /dev/block/platform/omap/omap_hsmmc.1/by-name/crypto
-    setprop persist.hwc.mirroring.transform 3
 
 # autosuspend root hubs immediatly after attached devices
     write /sys/bus/usb/devices/usb1/power/autosuspend_delay_ms 0
