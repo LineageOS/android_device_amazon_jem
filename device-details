@@ -6,3 +6,4 @@ Wifi: Broadcom 4330 wlan
 Audio: Wolfson Micro’s WM8962E
 Touchscreen: Cypress TrueTouch
 LCD: NT71391 Hydis 1920x1200 WUGA DSI
+Camera: OmniVision_OV9726
