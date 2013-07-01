@@ -1,21 +1,9 @@
 ro.cwm.forbid_format=/bootloader,/xloader,/misc
 
 rild.libpath=/system/lib/libril-lab126qmi.so
-# rild.libargs=-d /dev/ttyS0
-#define defaults for audio D/A mic and power mode
-omap.audio.mic.main=AMic0    
-omap.audio.mic.sub=AMic1     
-omap.audio.power=PingPong           
-sys.usb.vid=1949
-sys.usb.pid=0008
 ro.camera.sound.forced=0
-# System property for dolby 5.1 codec integration
-dolby.audio.sink.info=speaker
 ro.lab126.skipscreenshots=1
 persist.lab126.sys.usb.mtp=1
-#System property for memory optimizations
-com.lab126.reap=1
-com.lab126.trim=1
 # temperature sys fs node properties to be used by ThermalValidation/StressTest
 pcb.temp.sensor.sysfs.node=/sys/devices/platform/omap/omap_i2c.3/i2c-3/3-0070/temp1_input
 batt.temp.sensor.sysfs.node=/sys/class/power_supply/bq27541/temp
