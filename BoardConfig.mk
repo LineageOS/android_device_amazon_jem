@@ -29,7 +29,8 @@ TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bow
 # not tested at all
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bowser_img_from_target_files
 
-# TWRP Config
+# Recovery/TWRP Config
+TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/init.recovery.rc
 TARGET_OTA_ASSERT_DEVICE := blaze_tablet,bowser,jem
 DEVICE_RESOLUTION := 1920x1200
 RECOVERY_TOUCHSCREEN_SWAP_XY := true
