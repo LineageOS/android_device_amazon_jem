@@ -39,13 +39,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     sys.usb.vid=1949 \
     sys.usb.pid=0008
 
-# Dalvik
+# Set dirty regions on
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.heapstartsize=8m \
-    dalvik.vm.heapgrowthlimit=64m \
-    dalvik.vm.heapsize=256m \
-    dalvik.vm.heaptargetutilization=0.75 \
-    dalvik.vm.heapminfree=512k \
-    dalvik.vm.heapmaxfree=8m
+    hwui.render_dirty_regions=true
 
+$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/amazon/jem/jem-vendor.mk)
