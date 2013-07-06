@@ -16,6 +16,10 @@ PRODUCT_COPY_FILES += \
 
 #    $(DEVICE_FOLDER)/prebuilt/etc/apns-conf.xml:/system/etc/apns-conf.xml
 
+# Recovery
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
+
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/usr/idc/cyttsp4-i2c.idc:system/usr/idc/cyttsp4-i2c.idc \
