@@ -3,7 +3,6 @@ TARGET_BOOTLOADER_BOARD_SUBTYPE := jem
 
 $(call inherit-product, device/amazon/bowser-common/common.mk)
 
-# Device overlay
 DEVICE_PACKAGE_OVERLAYS += $(DEVICE_FOLDER)/overlay
 
 PRODUCT_AAPT_CONFIG := xlarge hdpi xhdpi
@@ -11,11 +10,10 @@ PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 # Rootfs
 PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/fstab.jem:/root/fstab.bowser \
     $(DEVICE_FOLDER)/init.bowser.rc:root/init.bowser.rc \
     $(DEVICE_FOLDER)/init.bowser.usb.rc:root/init.bowser.usb.rc \
     $(DEVICE_FOLDER)/ueventd.bowser.rc:root/ueventd.bowser.rc
-
-#    $(DEVICE_FOLDER)/prebuilt/etc/apns-conf.xml:/system/etc/apns-conf.xml
 
 # Recovery
 PRODUCT_COPY_FILES += \
