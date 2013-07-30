@@ -1,4 +1,4 @@
-ifeq ($(TARGET_DEVICE),jem)
+ifneq ($(filter jem jemlte,$(TARGET_DEVICE)),)
 LOCAL_PATH := $(call my-dir)
 
 ifneq ($(TARGET_SIMULATOR),true)
