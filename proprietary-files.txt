@@ -22,6 +22,12 @@
 #     directory for use in the build of other open source files.
 #
 
+# bin
+bin/brcm_patchram_plus
+bin/wan_fwupdate
+bin/wankit
+bin/wan_savelog
+
 # HALs
 lib/hw/sensors.omap4.so
 
@@ -33,6 +39,8 @@ lib/libmplmpu.so
 lib/libril-lab126qmi.so
 
 # Firmware
+vendor/firmware/bcm2076_20mhz.hcd
+vendor/firmware/bcm2076_26mhz.hcd
 vendor/firmware/ducati-m3.bin
 vendor/firmware/fw_bcmdhd.bin
 vendor/firmware/fw_bcmdhd_apsta.bin
