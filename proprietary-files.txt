@@ -28,14 +28,7 @@ bin/wan_fwupdate
 bin/wankit
 bin/wan_savelog
 
-# HALs
-lib/hw/sensors.omap4.so
-
 # Libs
-lib/libinvensense_hal.so
-lib/libmllite.so
-lib/libmlplatform.so
-lib/libmplmpu.so
 lib/libril-lab126qmi.so
 
 # Firmware
