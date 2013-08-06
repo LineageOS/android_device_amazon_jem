@@ -54,10 +54,30 @@ PRODUCT_PROPERTY_OVERRIDES += \
     omap.audio.power=PingPong \
     dolby.audio.sink.info=speaker \
     sys.usb.vid=1949 \
-    sys.usb.pid=0008
+    sys.usb.pid=0008 \
+    ro.cwm.forbid_format=/bootloader,/xloader,/misc \
+    ro.camera.sound.forced=0
 
 # Set dirty regions on
 PRODUCT_PROPERTY_OVERRIDES += \
     hwui.render_dirty_regions=true
+
+# temperature sys fs node properties to be used by ThermalValidation/StressTest
+PRODUCT_PROPERTY_OVERRIDES += \
+    pcb.temp.sensor.sysfs.node=/sys/devices/platform/omap/omap_i2c.3/i2c-3/3-0070/temp1_input \
+    batt.temp.sensor.sysfs.node=/sys/class/power_supply/bq27541/temp \
+    cpu.temp.sensor.sysfs.node=/sys/devices/platform/omap/omap_temp_sensor.0/temp1_input \
+    hotspot.temp.sensor.sysfs.node=/sys/class/thermal_sensor/thermal_sensor0/device/hotspot_temp \
+
+# charge current sys fs node property to be used by ThermalValidation
+PRODUCT_PROPERTY_OVERRIDES += \
+    charge.current.sysfs.node=/sys/class/power_supply/smb347_usb/device/charge_current \
+    telephony.sms.send=false
+
+# set noril for jem wifi only
+ifeq ($(TARGET_DEVICE),jem)
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.radio.noril=yes
+endif
 
 $(call inherit-product-if-exists, vendor/amazon/jem/jem-vendor.mk)

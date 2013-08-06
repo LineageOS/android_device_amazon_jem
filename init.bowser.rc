@@ -102,8 +102,6 @@ on fs
     chown system system /sys/class/power_supply/bq27541/charge_full_design
 
 on post-fs
-    setprop ro.radio.noril yes
-
     # H264 Encoder Profile setting
     # 1 - Base Profile
     # 2 - Main Profile
