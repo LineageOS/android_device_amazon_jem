@@ -24,6 +24,10 @@ PRODUCT_PACKAGES += \
         VisualizationWallpapers \
         librs_jni
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    telephony.sms.send=false \
+    ro.radio.noril=yes
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 $(call inherit-product, device/amazon/jem/device.mk)
