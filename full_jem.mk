@@ -29,8 +29,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.radio.noril=yes
 
 # Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 $(call inherit-product, device/amazon/jem/device.mk)
+
+# wifi-only device -- set here so that jemlte can keep telephony settings
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.carrier=wifi-only
+
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 PRODUCT_NAME := full_jem
 PRODUCT_DEVICE := jem
