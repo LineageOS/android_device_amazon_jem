@@ -19,8 +19,7 @@ $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 $(call inherit-product, device/amazon/jem/full_jem.mk)
 $(call inherit-product, device/amazon/bowser-common/cm.mk)
 
-#TARGET_SCREEN_WIDTH := 1920
-TARGET_SCREEN_WIDTH := 480
+TARGET_SCREEN_WIDTH := 1920
 TARGET_SCREEN_HEIGHT := 1200
 
 PRODUCT_NAME := cm_jem
