@@ -40,5 +40,5 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 PRODUCT_NAME := full_jem
 PRODUCT_DEVICE := jem
 PRODUCT_BRAND := google
-PRODUCT_MODEL := Kindle Fire HD
+PRODUCT_MODEL := Amazon Jem
 PRODUCT_MANUFACTURER := android
