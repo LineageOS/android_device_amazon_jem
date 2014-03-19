@@ -58,9 +58,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.cwm.forbid_format=/bootloader,/xloader,/misc \
     ro.camera.sound.forced=0
 
-# Set dirty regions on
+# Set dirty regions on and disable framework optimization
 PRODUCT_PROPERTY_OVERRIDES += \
-    hwui.render_dirty_regions=true
+    hwui.render_dirty_regions=true \
+    ro.hwui.disable_scissor_opt=true
 
 # temperature sys fs node properties to be used by ThermalValidation/StressTest
 PRODUCT_PROPERTY_OVERRIDES += \
