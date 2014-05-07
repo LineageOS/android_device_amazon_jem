@@ -39,10 +39,6 @@ TARGET_KERNEL_MODULES += SGX_MODULES
 # OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_FOLDER)/boot.mk
 
-# hack the ota
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bowser_ota_from_target_files
-TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./$(DEVICE_FOLDER)/releasetools/bowser_img_from_target_files
-
 # Recovery/TWRP Config
 TARGET_RECOVERY_FSTAB = $(DEVICE_FOLDER)/fstab.jem
 RECOVERY_FSTAB_VERSION = 2
