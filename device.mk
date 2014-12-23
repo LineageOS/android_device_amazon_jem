@@ -67,13 +67,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
     hotspot.temp.sensor.sysfs.node=/sys/class/thermal_sensor/thermal_sensor0/device/hotspot_temp \
     charge.current.sysfs.node=/sys/class/power_supply/smb347_usb/device/charge_current
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.heapstartsize=8m \
-    dalvik.vm.heapgrowthlimit=128m \
-    dalvik.vm.heapsize=384m \
-    dalvik.vm.heaptargetutilization=0.75 \
-    dalvik.vm.heapminfree=2m \
-    dalvik.vm.heapmaxfree=8m
-
 $(call inherit-product-if-exists, vendor/amazon/jem/jem-vendor.mk)
 $(call inherit-product-if-exists, vendor/amazon/omap4-common/omap4-common-vendor-544_112.mk)
