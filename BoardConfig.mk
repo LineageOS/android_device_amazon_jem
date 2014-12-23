@@ -37,6 +37,7 @@ SGX_MODULES:
 TARGET_KERNEL_MODULES += SGX_MODULES
 
 # OTA Packaging / Bootimg creation
+BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_FOLDER)/boot.mk
 
 # Recovery/TWRP Config
