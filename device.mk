@@ -36,23 +36,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.hwrotation=90 \
     persist.hwc.mirroring.region=0:0:1920:1200 \
     persist.hwc.mirroring.transform=2 \
-    persist.demo.hdmirotationlock=true \
-    persist.lab126.chargeprotect=1 \
-    persist.lab126.touchnoisereject=1 \
-    ro.nf.profile=2 \
-    ro.nf.level=512 \
     omap.audio.mic.main=AMic0 \
     omap.audio.mic.sub=AMic1 \
-    omap.audio.power=PingPong \
-    dolby.audio.sink.info=speaker \
     sys.usb.vid=1949 \
     sys.usb.pid=0008 \
     usb.vendor=1949 \
     usb.product.adb=0008 \
     usb.product.mtpadb=0008 \
-    ro.cwm.forbid_format=/bootloader,/xloader,/misc \
-    ro.camera.sound.forced=0 \
-    ro.camera.video_size=1280x720
+    ro.cwm.forbid_format=/bootloader,/xloader,/misc
 
 # Set dirty regions on and disable framework optimization
 PRODUCT_PROPERTY_OVERRIDES += \
