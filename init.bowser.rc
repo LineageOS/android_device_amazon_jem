@@ -2,6 +2,10 @@ import init.bowser-common.rc
 import init.omap4.rc
 import init.bowser.usb.rc
 
+on boot
+    chmod 0666 /sys/class/backlight/bowser/brightness
+    chown system graphics /sys/class/backlight/bowser/brightness
+
 #conditional start RIL for non-wifi devices
 service ril_cond_start /system/bin/wankit cond_start_ril
     class main
