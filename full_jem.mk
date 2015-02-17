@@ -24,7 +24,7 @@ PRODUCT_PACKAGES += \
         VisualizationWallpapers \
         librs_jni
 
-PRODUCT_PROPERTY_OVERRIDES += \
+ADDITIONAL_BUILD_PROPERTIES += \
     telephony.sms.send=false \
     ro.radio.noril=yes
 
@@ -32,7 +32,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 $(call inherit-product, device/amazon/jem/device.mk)
 
 # wifi-only device -- set here so that jemlte can keep telephony settings
-PRODUCT_PROPERTY_OVERRIDES += \
+ADDITIONAL_BUILD_PROPERTIES += \
     ro.carrier=wifi-only
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)

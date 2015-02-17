@@ -31,7 +31,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/ueventd.bowser.rc:root/ueventd.bowser.rc
 
 # Device settings
-PRODUCT_PROPERTY_OVERRIDES += \
+ADDITIONAL_BUILD_PROPERTIES += \
     ro.sf.lcd_density=240 \
     ro.sf.hwrotation=90 \
     persist.hwc.mirroring.region=0:0:1920:1200 \
@@ -46,12 +46,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.cwm.forbid_format=/bootloader,/xloader,/misc
 
 # Set dirty regions on and disable framework optimization
-PRODUCT_PROPERTY_OVERRIDES += \
+ADDITIONAL_BUILD_PROPERTIES += \
     hwui.render_dirty_regions=true \
     ro.hwui.disable_scissor_opt=true
 
 # temperature sys fs node properties to be used by ThermalValidation/StressTest
-PRODUCT_PROPERTY_OVERRIDES += \
+ADDITIONAL_BUILD_PROPERTIES += \
     pcb.temp.sensor.sysfs.node=/sys/devices/platform/omap/omap_i2c.3/i2c-3/3-0070/temp1_input \
     batt.temp.sensor.sysfs.node=/sys/class/power_supply/bq27541/temp \
     cpu.temp.sensor.sysfs.node=/sys/devices/platform/omap/omap_temp_sensor.0/temp1_input \
